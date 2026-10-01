@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Log in | Assignment Help</title>
+<link rel="icon" href="/favicon.png">
+<link rel="stylesheet" href="/css/account.css?v=4">
+</head>
+<body data-page="login">
+<header class="topbar">
+  <a class="brand" href="/"><img src="/favicon.png" alt="" width="34" height="34"><span>Assignment <b>Help</b></span></a>
+  <a class="back" href="/">&larr; Website</a>
+</header>
+<main class="wrap">
+  <section class="card" id="loginCard">
+    <h1>Welcome back</h1>
+    <p class="sub">Log in to see your orders, subscription and profile.</p>
+
+    <div id="gWrap"><div id="gbtn"></div><div class="or"><span>or use your User ID / email</span></div></div>
+
+    <form id="loginForm" novalidate>
+      <div class="field">
+        <label for="identifier">User ID or email</label>
+        <div class="box"><span class="ic" data-i="user"></span>
+          <input id="identifier" name="identifier" autocomplete="username" placeholder="Your User ID or email" required></div>
+        <div class="msg" id="identifierMsg"></div>
+      </div>
+      <div class="field">
+        <label for="password">Password</label>
+        <div class="box"><span class="ic" data-i="lock"></span>
+          <input id="password" name="password" type="password" autocomplete="current-password" placeholder="Your password" required>
+          <button class="eye" type="button" data-eye="password" aria-label="Show password"></button></div>
+        <div class="msg" id="passwordMsg"></div>
+      </div>
+      <div class="row-between"><span></span><a href="#" id="showForgot">Forgot password?</a></div>
+      <button class="btn" type="submit" id="loginBtn">Log in</button>
+    </form>
+    <p class="alt">New here? <a href="/signup">Create an account</a></p>
+  </section>
+
+  <section class="card" id="forgotCard" hidden>
+    <h1>Reset your password</h1>
+    <p class="sub">Enter your User ID or email and we'll email you a new password.</p>
+    <form id="forgotForm" novalidate>
+      <div class="field">
+        <label for="fIdent">User ID or email</label>
+        <div class="box"><span class="ic" data-i="mail"></span><input id="fIdent" autocomplete="username" placeholder="you@gmail.com" required></div>
+      </div>
+      <button class="btn" type="submit" id="forgotBtn">Email me a new password</button>
+    </form>
+    <p class="alt"><a href="#" id="backLogin">&larr; Back to log in</a></p>
+  </section>
+</main>
+<div id="toasts" role="status" aria-live="polite"></div>
+<script src="/js/account.js?v=4" defer></script>
+</body>
+</html>

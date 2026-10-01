@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Sign up | Assignment Help</title>
+<link rel="icon" href="/favicon.png">
+<link rel="stylesheet" href="/css/account.css?v=4">
+</head>
+<body data-page="signup">
+<header class="topbar">
+  <a class="brand" href="/"><img src="/favicon.png" alt="" width="34" height="34"><span>Assignment <b>Help</b></span></a>
+  <a class="back" href="/login">Log in</a>
+</header>
+<main class="wrap">
+  <section class="card" id="signupCard">
+    <h1>Create your account</h1>
+    <p class="sub">Track your orders and manage your plan in one place.</p>
+
+    <div id="gWrap"><div id="gbtn"></div><div class="or"><span>or sign up with your email</span></div></div>
+
+    <form id="signupForm" novalidate>
+      <div class="field">
+        <label for="name">Full name</label>
+        <div class="box"><span class="ic" data-i="user"></span><input id="name" name="name" autocomplete="name" placeholder="Your full name" required></div>
+        <div class="msg" id="nameMsg"></div>
+      </div>
+      <div class="field">
+        <label for="userId">Choose your User ID</label>
+        <div class="box"><span class="ic" data-i="user"></span><input id="userId" name="userId" autocomplete="username" placeholder="e.g. satish_22" maxlength="16" autocapitalize="none" spellcheck="false" required></div>
+        <div class="msg" id="userIdMsg">4-16 letters, numbers, dots, dashes or underscores.</div>
+      </div>
+      <div class="field">
+        <label for="email">Email address</label>
+        <div class="box"><span class="ic" data-i="mail"></span><input id="email" name="email" type="email" autocomplete="email" placeholder="you@gmail.com" required></div>
+        <div class="msg" id="emailMsg"></div>
+      </div>
+      <div class="field">
+        <label for="password">Create a password</label>
+        <div class="box"><span class="ic" data-i="lock"></span><input id="password" name="password" type="password" autocomplete="new-password" placeholder="8+ characters, letters and numbers" required><button class="eye" type="button" data-eye="password" aria-label="Show password"></button></div>
+        <div class="meter"><i id="meter"></i></div>
+        <div class="msg" id="passwordMsg"></div>
+      </div>
+      <button class="btn" type="submit" id="signupBtn">Create account</button>
+      <p class="fine">We'll email you a link to confirm your address. You can log in with your User ID or email.</p>
+    </form>
+    <p class="alt">Already have an account? <a href="/login">Log in</a></p>
+  </section>
+
+  <section class="card" id="doneCard" hidden>
+    <div class="done">
+      <div class="tick" data-i="check"></div>
+      <h2>You're all set!</h2>
+      <p id="doneMsg"></p>
+      <div class="steps">
+        <span>1. Open our email and tap <b>Confirm my email</b> (check spam too).</span>
+        <span>2. Log in any time with your <b>User ID</b> or email.</span>
+      </div>
+      <a class="btn" href="/account" style="text-decoration:none">Go to my account</a>
+    </div>
+  </section>
+</main>
+<div id="toasts" role="status" aria-live="polite"></div>
+<script src="/js/account.js?v=4" defer></script>
+</body>
+</html>

@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow">
+<title>Live chat - agent console</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font:14px/1.5 Arial,Helvetica,sans-serif;color:#1f2937;background:#f1f5f9;height:100vh;display:flex;flex-direction:column}
+button,input,textarea{font:inherit}.top{display:flex;align-items:center;gap:12px;padding:10px 16px;background:#312e81;color:#fff}.top b{flex:1}.top button{border:0;border-radius:8px;padding:6px 12px;background:rgba(255,255,255,.18);color:#fff;cursor:pointer}
+#login{margin:12vh auto;width:min(340px,92vw);background:#fff;padding:24px;border-radius:14px;box-shadow:0 8px 30px rgba(0,0,0,.1)}#login h2{margin:0 0 12px}#login input{width:100%;padding:10px;margin-bottom:10px;border:1.5px solid #c7d2fe;border-radius:8px}#login button{width:100%;padding:11px;border:0;border-radius:8px;background:#4f46e5;color:#fff;font-weight:700;cursor:pointer}#lerr{color:#dc2626;min-height:18px;font-size:13px}
+#app{display:none;flex:1;min-height:0}#list{width:290px;overflow-y:auto;background:#fff;border-right:1px solid #e2e8f0}.it{padding:11px 14px;border-bottom:1px solid #f1f5f9;cursor:pointer}.it:hover,.it.sel{background:#eef2ff}.it b{display:block}.it small{color:#64748b;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.tag{float:right;font-size:11px;padding:1px 8px;border-radius:9px;background:#fee2e2;color:#b91c1c}.tag.active{background:#dcfce7;color:#166534}.tag.closed{background:#e2e8f0;color:#475569}
+#main{flex:1;display:flex;flex-direction:column;min-width:0}#empty{margin:auto;color:#64748b}#chat{display:none;flex:1;flex-direction:column;min-height:0}.ch{display:flex;align-items:center;gap:10px;padding:10px 16px;background:#fff;border-bottom:1px solid #e2e8f0}.ch div{flex:1;min-width:0}.ch button{border:0;border-radius:8px;padding:8px 14px;background:#dc2626;color:#fff;cursor:pointer}
+#log{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:8px}.m{max-width:75%;padding:8px 12px;border-radius:14px;white-space:pre-wrap;overflow-wrap:anywhere}.m small{display:block;font-size:11px;opacity:.6}.m.agent{align-self:flex-end;background:#4f46e5;color:#fff}.m.visitor{align-self:flex-start;background:#fff;border:1px solid #e2e8f0}.m.system{align-self:center;color:#64748b;font-size:12px}
+#f{display:flex;gap:8px;padding:10px;background:#fff;border-top:1px solid #e2e8f0}#f textarea{flex:1;resize:none;height:54px;padding:8px 10px;border:1.5px solid #c7d2fe;border-radius:10px}#f button{padding:0 20px;border:0;border-radius:10px;background:#4f46e5;color:#fff;font-weight:700;cursor:pointer}
+#gear{border:0;border-radius:8px;padding:6px 12px;background:rgba(255,255,255,.18);color:#fff;cursor:pointer}#gear:hover{background:rgba(255,255,255,.3)}
+#set{position:fixed;inset:0;z-index:50;background:rgba(15,23,42,.55);display:none;align-items:center;justify-content:center;padding:16px}#set.on{display:flex}
+#set .card{width:min(460px,100%);background:#fff;border-radius:16px;padding:22px;box-shadow:0 20px 60px rgba(0,0,0,.3)}#set h3{margin:0 0 4px;font-size:18px}#set p{margin:0 0 14px;color:#64748b;font-size:13px}
+#set label{display:block;font-weight:600;margin:12px 0 6px}#set label small{font-weight:400;color:#64748b}#set textarea{width:100%;padding:10px;border:1.5px solid #c7d2fe;border-radius:10px;resize:vertical;min-height:64px}
+#set .ck{display:flex;align-items:flex-start;gap:8px;font-weight:400;margin:10px 0}#set .ck input{margin-top:4px}
+#set .row{display:flex;justify-content:flex-end;gap:8px;margin-top:16px}#set .row button{border:0;border-radius:10px;padding:9px 18px;cursor:pointer;font-weight:600}#ss{background:#4f46e5;color:#fff}#sc{background:#eef2ff;color:#3730a3}#serr{color:#dc2626;font-size:13px;min-height:18px;margin-top:6px}#sok{color:#16a34a;font-size:13px}
+@media(max-width:700px){#list{width:100%;max-height:34vh}#app{flex-direction:column}}
+</style></head><body>
+<div class="top"><b>Live chat - agent console</b><span id="who"></span><button id="gear" type="button" hidden>⚙ Settings</button><button id="out" hidden>Log out</button></div>
+<form id="login"><h2>Agent sign in</h2><input id="u" placeholder="Username" autocomplete="username" required><input id="p" type="password" placeholder="Password" autocomplete="current-password" required><div id="lerr"></div><button>Sign in</button></form>
+<div id="app"><div id="list"></div><div id="main"><div id="empty">Select a chat on the left to read it and reply. New visitors appear here instantly with a sound alert.</div>
+<div id="chat"><div class="ch"><div><b id="cn"></b><br><small id="ce"></small></div><button id="end">End chat &amp; email transcript</button></div><div id="log"></div>
+<form id="f"><textarea id="t" placeholder="Type your reply (Enter to send, Shift+Enter for a new line)" maxlength="2000"></textarea><button>Send</button></form></div></div></div>
+<div id="set" role="dialog" aria-label="Chat settings"><div class="card"><h3>Chat settings</h3><p>Choose where chat transcripts are forwarded.</p>
+<label for="sfe">Forward transcripts to <small>(comma separated emails)</small></label><textarea id="sfe" placeholder="you@company.com, manager@company.com"></textarea>
+<label class="ck"><input type="checkbox" id="scp"><span>Also email a copy to the visitor when they gave an email address</span></label>
+<label class="ck"><input type="checkbox" id="snc"><span>Email these addresses when a new chat starts, so no message is missed</span></label>
+<div id="serr"></div><div class="row"><button id="sc" type="button">Cancel</button><button id="ss" type="button">Save</button></div></div></div>
+<script>
+(function(){
+var TK="lc_agent_token",token=sessionStorage.getItem(TK),sel=null,sessions={},es=null;
+var $=function(i){return document.getElementById(i)};
+function api(path,opt){opt=opt||{};opt.headers=Object.assign({"Authorization":"Bearer "+token,"Content-Type":"application/json"},opt.headers||{});
+ return fetch("/api/livechat"+path,opt).then(function(r){if(r.status===401){logout();throw new Error("auth")}return r.json()})}
+function logout(){sessionStorage.removeItem(TK);location.reload()}
+$("out").onclick=logout;
+$("gear").onclick=function(){$("serr").textContent="";api("/agent/settings").then(function(j){var s=j.settings;$("sfe").value=(s.forward_emails||[]).join(", ");$("scp").checked=!!s.send_visitor_copy;$("snc").checked=!!s.notify_new_chat;$("set").classList.add("on");$("sfe").focus()})};
+$("sc").onclick=function(){$("set").classList.remove("on")};
+$("set").onclick=function(e){if(e.target===$("set"))$("set").classList.remove("on")};
+$("ss").onclick=function(){$("serr").textContent="";
+ api("/agent/settings",{method:"PUT",body:JSON.stringify({forward_emails:$("sfe").value,send_visitor_copy:$("scp").checked,notify_new_chat:$("snc").checked})})
+ .then(function(j){if(!j.success)throw new Error(j.message);$("sfe").value=j.settings.forward_emails.join(", ");$("serr").innerHTML='<span id="sok">Saved. Transcripts will be forwarded to: '+(j.settings.forward_emails.join(", ")||"(nobody)")+"</span>"})
+ .catch(function(x){$("serr").textContent=x.message||"Could not save."})};
+
+$("login").onsubmit=function(e){e.preventDefault();$("lerr").textContent="";
+ fetch("/api/admin/login",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({username:$("u").value,password:$("p").value})})
+ .then(function(r){return r.json()}).then(function(j){if(!j.success)throw new Error(j.message);token=j.token;sessionStorage.setItem(TK,token);$("who").textContent=j.username;boot()})
+ .catch(function(x){$("lerr").textContent=x.message||"Login failed"})};
+function boot(){$("gear").hidden=false;$("login").style.display="none";$("app").style.display="flex";$("out").hidden=false;
+ api("/agent/sessions").then(function(j){sessions={};j.sessions.forEach(function(s){sessions[s.id]=s});drawList()});
+ if(es)es.close();es=new EventSource("/api/livechat/agent/stream?token="+encodeURIComponent(token));
+ es.addEventListener("session_new",function(e){var s=JSON.parse(e.data);sessions[s.id]=s;drawList();beep()});
+ es.addEventListener("session_update",function(e){var s=JSON.parse(e.data);sessions[s.id]=Object.assign(sessions[s.id]||{},s);drawList()});
+ es.addEventListener("session_closed",function(e){var d=JSON.parse(e.data);if(sessions[d.id])sessions[d.id].status="closed";drawList();if(sel===d.id)lock()});
+ es.addEventListener("message",function(e){var m=JSON.parse(e.data),s=sessions[m.session_id];
+  if(s){s.last_body=m.sender==="system"?s.last_body:m.body;s.last_activity=m.created_at;drawList()}else{api("/agent/sessions").then(function(j){j.sessions.forEach(function(x){sessions[x.id]=x});drawList()})}
+  if(m.session_id===sel)addMsg(m);else if(m.sender==="visitor")beep()})}
+function esc(s){return String(s==null?"":s)}
+function drawList(){var l=$("list");l.innerHTML="";
+ Object.values(sessions).sort(function(a,b){return (a.status==="closed")-(b.status==="closed")||new Date(b.last_activity)-new Date(a.last_activity)}).forEach(function(s){
+  var d=document.createElement("div");d.className="it"+(s.id===sel?" sel":"");
+  var t=document.createElement("span");t.className="tag "+s.status;t.textContent=s.status==="waiting"?"new":s.status;
+  var b=document.createElement("b");b.textContent=esc(s.name);var sm=document.createElement("small");sm.textContent=esc(s.last_body||s.email);
+  d.appendChild(t);d.appendChild(b);d.appendChild(sm);d.onclick=function(){openChat(s.id)};l.appendChild(d)});
+ if(!l.children.length){l.innerHTML='<div class="it"><small>No chats yet</small></div>'}}
+function openChat(id){sel=id;drawList();api("/agent/sessions/"+id+"/messages").then(function(j){
+ $("empty").style.display="none";$("chat").style.display="flex";$("cn").textContent=j.session.name;$("ce").textContent=j.session.email||"No email (anonymous visitor)";
+ $("log").innerHTML="";j.messages.forEach(addMsg);j.session.status==="closed"?lock():unlock();$("t").focus()})}
+function addMsg(m){var d=document.createElement("div");d.className="m "+m.sender;d.appendChild(document.createTextNode(m.body));
+ if(m.sender!=="system"){var s=document.createElement("small");s.textContent=(m.sender_name||"")+" · "+new Date(m.created_at).toLocaleTimeString();d.appendChild(s)}
+ var L=$("log");L.appendChild(d);L.scrollTop=L.scrollHeight}
+function lock(){$("f").style.display="none";$("end").style.display="none"}function unlock(){$("f").style.display="flex";$("end").style.display=""}
+function send(){var v=$("t").value.trim();if(!v||!sel)return;$("t").value="";
+ api("/agent/sessions/"+sel+"/messages",{method:"POST",body:JSON.stringify({body:v})}).then(function(j){if(!j.success)alert(j.message)})}
+$("f").onsubmit=function(e){e.preventDefault();send()};
+$("t").onkeydown=function(e){if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();send()}};
+$("end").onclick=function(){var s=sessions[sel];var x=prompt("End this chat. The transcript goes to "+(s.email?s.email+" and ":"")+"the team inbox.\nSend it to another email too? (optional)","");if(x===null)return;
+ api("/agent/sessions/"+sel+"/close",{method:"POST",body:JSON.stringify({emails:x.trim()?[x.trim()]:[]})}).then(function(j){
+  alert(j.emailed&&j.emailed.length?"Transcript emailed to: "+j.emailed.join(", "):"Chat closed, but no email could be sent (check mail settings).")})};
+function beep(){try{var c=new (window.AudioContext||window.webkitAudioContext)(),o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);o.frequency.value=880;g.gain.value=.05;o.start();o.stop(c.currentTime+.15)}catch(e){}}
+if(token){api("/agent/sessions").then(function(){boot()}).catch(function(){})}
+})();
+</script></body></html>

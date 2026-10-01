@@ -1,0 +1,31 @@
+{
+  "name": "AHT-fullstack",
+  "version": "1.0.0",
+  "private": true,
+  "description": "AHT frontend and Node.js backend application",
+  "scripts": {
+    "start": "node backend/server.js",
+    "dev": "nodemon backend/server.js",
+    "create-admin": "node backend/scripts/create-admin.js",
+    "install-backend": "npm install --prefix backend"
+  },
+  "main": "backend/server.js",
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "helmet": "^8.3.0",
+    "jsonwebtoken": "^9.0.3",
+    "mammoth": "^1.8.0",
+    "multer": "^2.4.0",
+    "nodemailer": "^7.0.6",
+    "pdf-parse": "^1.1.1",
+    "pg": "^8.23.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10"
+  }
+}

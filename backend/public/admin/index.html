@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow,noarchive">
+<title>Assignment Help • Admin</title>
+<link rel="stylesheet" href="/admin/admin.css">
+</head>
+<body>
+<a class="skip-link" href="#hero">Skip to main content</a>
+<div class="bg-orb orb-a"></div><div class="bg-orb orb-b"></div>
+<main class="shell">
+  <section id="login" class="login-screen">
+    <div class="login-brand"><span class="brand-icon">AH</span><div><b>Assignment Help</b><small>Admin Console</small></div></div>
+    <div class="login-card">
+      <div class="login-icon">🔐</div>
+      <h1>Welcome back</h1><p>Sign in to manage customer requirements.</p>
+      <form id="loginForm" autocomplete="on">
+        <label for="username">Username</label>
+        <div class="input-wrap"><span>👤</span><input id="username" name="username" autocomplete="username" placeholder="Admin username" required></div>
+        <label for="password">Password</label>
+        <div class="input-wrap"><span>🔒</span><input id="password" name="password" type="password" autocomplete="current-password" placeholder="Password" required><button type="button" id="togglePassword" class="eye">◉</button></div>
+        <button id="loginBtn" class="primary full" type="submit"><span>Sign in</span><span>→</span></button>
+        <div id="loginMessage" class="message" role="alert"></div>
+      </form>
+    </div>
+    <small class="secure-note">Protected admin area • Session secured with JWT</small>
+  </section>
+
+  <section id="app" class="hidden">
+    <header class="topbar">
+      <div class="brand"><span class="brand-icon">AH</span><div><b>Assignment Help</b><small>Admin Console</small></div></div>
+      <div class="top-actions"><span id="loggedUser" class="user-pill">Administrator</span><a class="ghost" href="/agent" target="_blank" rel="noopener" style="text-decoration:none;display:inline-flex;align-items:center;gap:6px">💬 Live chat</a><button id="logout" class="ghost" type="button">↪ Logout</button></div>
+    </header>
+
+    <div class="hero-head"><div><span class="eyebrow">LIVE OPERATIONS</span><h1>Submissions</h1><p>Review requirements, files, deadlines and customer details.</p></div><button id="refresh" class="primary" type="button">↻ <span>Refresh</span></button></div>
+
+    <div class="stats">
+      <div class="stat"><span class="stat-icon">📥</span><div><small>Total</small><strong id="statTotal">0</strong></div></div>
+      <div class="stat"><span class="stat-icon">🆕</span><div><small>New</small><strong id="statNew">0</strong></div></div>
+      <div class="stat"><span class="stat-icon">⏳</span><div><small>In Progress</small><strong id="statProgress">0</strong></div></div>
+      <div class="stat"><span class="stat-icon">✓</span><div><small>Completed</small><strong id="statCompleted">0</strong></div></div>
+    </div>
+
+    <section class="panel">
+      <div class="panel-toolbar"><div class="search"><span>⌕</span><input id="search" type="search" placeholder="Search order, customer, email, subject…" autocomplete="off"></div><select id="statusFilter"><option value="">All statuses</option><option>New</option><option>In Progress</option><option>Completed</option><option>Cancelled</option></select></div>
+      <div id="list"><div class="loading"><span class="spinner"></span>Loading submissions…</div></div>
+    </section>
+  </section>
+</main>
+
+<div id="modal" class="modal hidden" aria-hidden="true"><div class="modal-card"><div class="modal-head"><div><small>SUBMISSION</small><h2 id="modalTitle">Order</h2></div><button id="close" class="close" type="button">×</button></div><div id="modalBody"></div></div></div>
+<div id="toast" class="toast"></div>
+<script src="/admin/admin.js" defer></script>
+</body>
+</html>
